@@ -3,6 +3,7 @@ package com.calsol.solar.controller;
 import com.calsol.solar.domain.entity.Design;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -74,8 +75,7 @@ public class ControllerCalculator {
      */
     @GetMapping("/designinfo/{page}")
     public List<Design> getDesignInfo(@PathVariable("page") int page) {
-        Pageable pages = Pageable.ofSize(10);
-        pages.withPage(page);
+        Pageable pages = PageRequest.of(page,10);
 
         return IRepositoryDesign.findAll(pages).toList();
 
