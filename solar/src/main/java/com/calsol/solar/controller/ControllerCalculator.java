@@ -2,10 +2,12 @@ package com.calsol.solar.controller;
 
 import com.calsol.solar.domain.entity.Design;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -60,10 +62,10 @@ public class ControllerCalculator {
      * @return the design info
      */
     @GetMapping("/designinfobyname/{name}")
-    public String getDesignInfo(@PathVariable("name") String name) {
+    public ResponseEntity getDesignInfo(@PathVariable("name") String name) {
 
-
-        return Optional.ofNullable(IRepositoryDesign.findByName(name)).map(Design::toString).orElse("Not Found");
+        Gson gson = new Gson();
+        return ResponseEntity.ok(Optional.ofNullable(IRepositoryDesign.findByName(name)).map(gson::toJson).orElse("Not Found"));
 
     }
 

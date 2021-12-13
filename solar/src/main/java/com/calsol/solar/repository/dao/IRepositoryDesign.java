@@ -13,8 +13,8 @@ public interface IRepositoryDesign extends JpaRepository<Design, Long> {
     /**
      * Find by name design.
      *
-     * @param emailAddress the email address
+     * @param name the name
      * @return the design
      */
-    Design findByName(String emailAddress);
+    Design findByName(String name);
 }
