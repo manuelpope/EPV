@@ -32,6 +32,8 @@ public class Design implements Serializable {
     private String name;
     @Column(name = "local_date_time", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime localDateTime;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "design")
+    private Condition condition;
 
 
 }

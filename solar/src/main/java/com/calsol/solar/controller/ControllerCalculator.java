@@ -58,15 +58,6 @@ public class ControllerCalculator {
 
     }
 
-    @PostMapping("/designinit")
-    @ResponseStatus(HttpStatus.OK)
-    public Design putInMap(@RequestBody @Valid Design designInfo) {
-
-        designInfo.setLocalDateTime(LocalDateTime.now(zoneId));
-        contextDesign.addDesign(designInfo);
-        return designInfo;
-
-    }
 
     /**
      * Gets design info.
@@ -90,7 +81,7 @@ public class ControllerCalculator {
      */
     @GetMapping("/designinfo/{page}")
     public List<Design> getDesignInfo(@PathVariable("page") int page) {
-        Pageable pages = PageRequest.of(page,10);
+        Pageable pages = PageRequest.of(page, 10);
 
         return IRepositoryDesign.findAll(pages).toList();
 
