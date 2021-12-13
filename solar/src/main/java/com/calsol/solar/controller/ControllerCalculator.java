@@ -2,6 +2,7 @@ package com.calsol.solar.controller;
 
 import com.calsol.solar.domain.entity.Design;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
+import com.calsol.solar.service.ContextDesign;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +30,8 @@ public class ControllerCalculator {
     private ZoneId zoneId;
     @Autowired
     private IRepositoryDesign IRepositoryDesign;
+    @Autowired
+    private ContextDesign contextDesign;
 
     /**
      * Instantiates a new Controller calculator.
@@ -52,6 +55,16 @@ public class ControllerCalculator {
 
         designInfo.setLocalDateTime(LocalDateTime.now(zoneId));
         return IRepositoryDesign.save(designInfo);
+
+    }
+
+    @PostMapping("/designinit")
+    @ResponseStatus(HttpStatus.OK)
+    public Design putInMap(@RequestBody @Valid Design designInfo) {
+
+        designInfo.setLocalDateTime(LocalDateTime.now(zoneId));
+        contextDesign.addDesign(designInfo);
+        return designInfo;
 
     }
 
