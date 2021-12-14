@@ -95,7 +95,7 @@ public class ControllerDesign {
             design.setCondition(condition);
             contextDesign.update(design);
 
-            return ResponseEntity.ok(repositoryDesign.save(design));
+            return ResponseEntity.ok(design);
 
         } catch (Exception e) {
             log.info(e.getMessage());
