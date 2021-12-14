@@ -14,6 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Builder
+@EqualsAndHashCode(exclude = "design")
 public class Condition implements Serializable {
 
 
