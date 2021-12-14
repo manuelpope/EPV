@@ -65,10 +65,10 @@ public class ContextDesign {
      * @param design the design
      * @throws Exception the exception
      */
-    public synchronized void update(Design design) throws Exception {
+    public void update(Design design) throws Exception {
         log.info("update " + design.getName());
         assertExistenceDesign(design.getName());
-        context.replace(design.getName(), design);
+        context.put(design.getName(), design);
 
     }
 }

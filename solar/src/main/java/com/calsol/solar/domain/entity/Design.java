@@ -1,10 +1,7 @@
 package com.calsol.solar.domain.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -20,10 +17,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode(exclude = "condition")
+@Builder
 public class Design implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @NotEmpty
@@ -32,10 +31,15 @@ public class Design implements Serializable {
     private String name;
     @Column(name = "local_date_time", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime localDateTime;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "design")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "condition")
     private Condition condition;
 
+    private static final long serialVersionUID = 42L;
 
+    public void setCondition(Condition condition) {
+        this.condition = condition;
+    }
 }
 
 

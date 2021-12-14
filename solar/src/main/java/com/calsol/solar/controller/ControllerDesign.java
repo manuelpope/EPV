@@ -1,6 +1,7 @@
 package com.calsol.solar.controller;
 
 import com.calsol.solar.domain.dto.ConditionDto;
+import com.calsol.solar.domain.entity.Condition;
 import com.calsol.solar.domain.entity.Design;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
 import com.calsol.solar.service.ContextDesign;
@@ -26,7 +27,7 @@ public class ControllerDesign {
 
     private final ZoneId zoneId;
     @Autowired
-    private final com.calsol.solar.repository.dao.IRepositoryDesign IRepositoryDesign;
+    private final IRepositoryDesign repositoryDesign;
     @Autowired
     private ContextDesign contextDesign;
 
@@ -37,7 +38,7 @@ public class ControllerDesign {
      * @param IRepositoryDesign the repository design
      */
     public ControllerDesign(IRepositoryDesign IRepositoryDesign) {
-        this.IRepositoryDesign = IRepositoryDesign;
+        this.repositoryDesign = IRepositoryDesign;
         this.zoneId = TimeZone.getTimeZone("UTC").toZoneId();
     }
 
@@ -90,9 +91,11 @@ public class ControllerDesign {
 
         try {
             Design design = contextDesign.getDesign(conditionDto.getNameDesign());
-            design.setCondition(conditionDto.getCondition());
+            Condition condition = conditionDto.getCondition();
+            design.setCondition(condition);
             contextDesign.update(design);
-            return ResponseEntity.ok(design);
+
+            return ResponseEntity.ok(repositoryDesign.save(design));
 
         } catch (Exception e) {
             log.info(e.getMessage());

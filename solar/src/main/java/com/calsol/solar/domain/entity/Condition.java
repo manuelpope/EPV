@@ -22,13 +22,8 @@ public class Condition implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "FK_DESIGN", updatable = false, nullable = false)
-    private Design design;
-
     private Double powerArea;
     private Double autonomy;
 
-
+    private static final long serialVersionUID = 42L;
 }
