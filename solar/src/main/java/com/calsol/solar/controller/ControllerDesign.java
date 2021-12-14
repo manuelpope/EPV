@@ -21,9 +21,9 @@ import java.util.TimeZone;
 @RequestMapping("/v1/calc")
 public class ControllerDesign {
 
-    private ZoneId zoneId;
+    private final ZoneId zoneId;
     @Autowired
-    private com.calsol.solar.repository.dao.IRepositoryDesign IRepositoryDesign;
+    private final com.calsol.solar.repository.dao.IRepositoryDesign IRepositoryDesign;
     @Autowired
     private ContextDesign contextDesign;
 
@@ -57,6 +57,20 @@ public class ControllerDesign {
             e.printStackTrace();
             return ResponseEntity.unprocessableEntity().body(e.getMessage());
         }
+
+
+    }
+
+    /**
+     * Gets all context.
+     *
+     * @return the all context
+     */
+    @GetMapping("/context")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity getAllContext() {
+
+        return ResponseEntity.ok(contextDesign.getContext().entrySet());
 
 
     }
