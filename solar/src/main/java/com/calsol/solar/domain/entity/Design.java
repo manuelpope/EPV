@@ -32,7 +32,7 @@ public class Design implements Serializable {
     @Column(name = "local_date_time", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime localDateTime;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "condition")
+    @JoinColumn(name = "fk_condition")
     private Condition condition;
 
     private static final long serialVersionUID = 42L;
