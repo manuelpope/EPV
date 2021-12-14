@@ -1,9 +1,6 @@
 package com.calsol.solar.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Condition implements Serializable {
 
 
@@ -28,8 +26,8 @@ public class Condition implements Serializable {
     @JoinColumn(name = "FK_DESIGN", updatable = false, nullable = false)
     private Design design;
 
-    private Integer powerArea;
-    private Integer autonomy;
+    private Double powerArea;
+    private Double autonomy;
 
 
 }

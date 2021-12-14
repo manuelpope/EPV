@@ -31,10 +31,16 @@ public class ContextDesign {
      * @param nameDesign the name design
      * @return the design
      */
-    public Design getDesign(String nameDesign) {
-
+    public Design getDesign(String nameDesign) throws Exception {
+        assertExistenceDesign(nameDesign);
         return context.get(nameDesign);
 
+    }
+
+    private void assertExistenceDesign(String nameDesign) throws Exception {
+        if (!context.containsKey(nameDesign)) {
+            throw new Exception("There is no design with that name");
+        }
     }
 
     /**
@@ -49,6 +55,19 @@ public class ContextDesign {
             throw new Exception("its already set that name");
         }
         context.put(design.getName(), design);
+
+    }
+
+    /**
+     * Update.
+     *
+     * @param design the design
+     * @throws Exception the exception
+     */
+    public void update(Design design) throws Exception {
+        log.info("update " + design.getName());
+        assertExistenceDesign(design.getName());
+        context.replace(design.getName(), design);
 
     }
 }

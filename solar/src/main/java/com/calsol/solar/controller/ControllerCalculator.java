@@ -27,9 +27,9 @@ import java.util.TimeZone;
 public class ControllerCalculator {
 
 
-    private ZoneId zoneId;
+    private final ZoneId zoneId;
     @Autowired
-    private IRepositoryDesign IRepositoryDesign;
+    private final IRepositoryDesign IRepositoryDesign;
     @Autowired
     private ContextDesign contextDesign;
 

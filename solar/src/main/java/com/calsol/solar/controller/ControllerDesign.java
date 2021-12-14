@@ -1,8 +1,10 @@
 package com.calsol.solar.controller;
 
+import com.calsol.solar.domain.dto.ConditionDto;
 import com.calsol.solar.domain.entity.Design;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
 import com.calsol.solar.service.ContextDesign;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.TimeZone;
  */
 @RestController
 @RequestMapping("/v1/calc")
+@Slf4j
 public class ControllerDesign {
 
     private final ZoneId zoneId;
@@ -75,5 +78,27 @@ public class ControllerDesign {
 
     }
 
+    /**
+     * Add condition design response entity.
+     *
+     * @param conditionDto the condition dto
+     * @return the response entity
+     */
+    @PostMapping("/condition")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity addConditionDesign(@RequestBody @Valid ConditionDto conditionDto) {
 
+        try {
+            Design design = contextDesign.getDesign(conditionDto.getNameDesign());
+            design.setCondition(conditionDto.getCondition());
+            contextDesign.update(design);
+            return ResponseEntity.ok(design);
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+
+    }
 }
