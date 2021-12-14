@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The type Context design.
@@ -22,7 +23,7 @@ public class ContextDesign {
      * Instantiates a new Context design.
      */
     public ContextDesign() {
-        context = new HashMap<>();
+        context = new ConcurrentHashMap<>();
     }
 
     /**
@@ -49,7 +50,7 @@ public class ContextDesign {
      * @param design the design
      * @throws Exception the exception
      */
-    public void addDesign(Design design) throws Exception {
+    public synchronized void addDesign(Design design) throws Exception {
         log.info("Adding " + design.getName());
         if (context.containsKey(design.getName())) {
             throw new Exception("its already set that name");
@@ -64,7 +65,7 @@ public class ContextDesign {
      * @param design the design
      * @throws Exception the exception
      */
-    public void update(Design design) throws Exception {
+    public synchronized void update(Design design) throws Exception {
         log.info("update " + design.getName());
         assertExistenceDesign(design.getName());
         context.replace(design.getName(), design);
