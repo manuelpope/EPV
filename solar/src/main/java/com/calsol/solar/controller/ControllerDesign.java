@@ -1,6 +1,7 @@
 package com.calsol.solar.controller;
 
 import com.calsol.solar.domain.dto.ConditionDto;
+import com.calsol.solar.domain.dto.PanelDto;
 import com.calsol.solar.domain.entity.Condition;
 import com.calsol.solar.domain.entity.Design;
 import com.calsol.solar.domain.entity.Panel;

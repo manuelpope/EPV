@@ -1,5 +1,6 @@
-package com.calsol.solar.controller;
+package com.calsol.solar.domain.dto;
 
+import com.calsol.solar.domain.IDevice;
 import com.calsol.solar.domain.entity.Panel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class PanelDto {
+public class PanelDto implements IDevice {
 
     private final static List<Integer> ALLOWED_WATTS = new ArrayList<>(Arrays.asList(230, 250, 500));
     private final static List<Double> ALLOWED_Volts = new ArrayList<>(Arrays.asList(24.0, 48.0));

@@ -1,11 +1,10 @@
 package com.calsol.solar.domain.dto;
 
 import com.calsol.solar.domain.entity.Condition;
+import com.calsol.solar.domain.IDevice;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
 
 /**
  * The type Condition dto.
@@ -13,7 +12,7 @@ import java.util.Optional;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConditionDto {
+public class ConditionDto implements IDevice {
 
 
     private String nameDesign;

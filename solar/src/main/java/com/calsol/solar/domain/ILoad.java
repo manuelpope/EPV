@@ -1,4 +1,4 @@
-package com.calsol.solar.domain.entity;
+package com.calsol.solar.domain;
 
 /**
  * The interface Load.

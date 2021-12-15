@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Builder
 @EqualsAndHashCode(exclude = "design")
-public class Panel implements IDevice {
+public class Panel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
