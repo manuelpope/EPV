@@ -22,7 +22,9 @@ public class Load implements Serializable {
     private Double energyNight;
     private Double totalEnergy;
     private String type;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "design_id", nullable = false)
+    private Design design;
     private static final long serialVersionUID = 42L;
 
 }

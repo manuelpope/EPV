@@ -41,8 +41,7 @@ public class Design implements Serializable {
     private Panel panel;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "fk_Load_Design")
+    @OneToMany(mappedBy = "design", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Load> loadList;
 
     public void setCondition(Condition condition) {
