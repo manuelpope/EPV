@@ -1,12 +1,16 @@
 package com.calsol.solar.controller;
 
 import com.calsol.solar.domain.dto.ConditionDto;
+import com.calsol.solar.domain.dto.LoadDto;
 import com.calsol.solar.domain.dto.PanelDto;
+import com.calsol.solar.domain.dto.SelectionLoadDto;
 import com.calsol.solar.domain.entity.Condition;
 import com.calsol.solar.domain.entity.Design;
+import com.calsol.solar.domain.entity.Load;
 import com.calsol.solar.domain.entity.Panel;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
 import com.calsol.solar.service.ContextDesign;
+import com.calsol.solar.service.ILoadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.TimeZone;
 
 
@@ -32,6 +37,8 @@ public class ControllerDesign {
     private final IRepositoryDesign repositoryDesign;
     @Autowired
     private ContextDesign contextDesign;
+    @Autowired
+    private ILoadService loadService;
 
 
     /**
@@ -115,6 +122,27 @@ public class ControllerDesign {
             Design design = contextDesign.getDesign(panelDto.getNameDesign());
             Panel panel = panelDto.getPanel();
             design.setPanel(panel);
+            contextDesign.update(design);
+
+            return ResponseEntity.ok(design);
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+
+    }
+
+    @PostMapping("/load")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity addLoadsDesign(@RequestBody @Valid SelectionLoadDto selectionLoadDto) {
+
+        try {
+            Design design = contextDesign.getDesign(selectionLoadDto.getNameDesign());
+            loadService.loadDtoList(selectionLoadDto.getLoadDtoList());
+            List<Load> loadList = loadService.buildLoads();
+            design.setLoadList(loadList);
             contextDesign.update(design);
 
             return ResponseEntity.ok(design);
