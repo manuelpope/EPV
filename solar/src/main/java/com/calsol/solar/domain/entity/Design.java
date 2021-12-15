@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Design implements Serializable {
 
+    private static final long serialVersionUID = 42L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -34,11 +35,16 @@ public class Design implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_condition")
     private Condition condition;
-
-    private static final long serialVersionUID = 42L;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_panel")
+    private Panel panel;
 
     public void setCondition(Condition condition) {
         this.condition = condition;
+    }
+
+    public void setPanel(Panel panel) {
+        this.panel = panel;
     }
 }
 

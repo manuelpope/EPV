@@ -3,6 +3,7 @@ package com.calsol.solar.controller;
 import com.calsol.solar.domain.dto.ConditionDto;
 import com.calsol.solar.domain.entity.Condition;
 import com.calsol.solar.domain.entity.Design;
+import com.calsol.solar.domain.entity.Panel;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
 import com.calsol.solar.service.ContextDesign;
 import lombok.extern.slf4j.Slf4j;
@@ -93,6 +94,26 @@ public class ControllerDesign {
             Design design = contextDesign.getDesign(conditionDto.getNameDesign());
             Condition condition = conditionDto.getCondition();
             design.setCondition(condition);
+            contextDesign.update(design);
+
+            return ResponseEntity.ok(design);
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+
+    }
+
+    @PostMapping("/panel")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity addPanelDesign(@RequestBody @Valid PanelDto panelDto) {
+
+        try {
+            Design design = contextDesign.getDesign(panelDto.getNameDesign());
+            Panel panel = panelDto.getPanel();
+            design.setPanel(panel);
             contextDesign.update(design);
 
             return ResponseEntity.ok(design);
