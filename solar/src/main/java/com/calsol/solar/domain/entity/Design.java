@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(exclude = "condition")
+@EqualsAndHashCode(exclude = {"condition", "panel"})
 @Builder
 public class Design implements Serializable {
 

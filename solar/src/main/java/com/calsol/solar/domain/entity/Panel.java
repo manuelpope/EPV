@@ -3,6 +3,7 @@ package com.calsol.solar.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @ToString
@@ -10,8 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Builder
-@EqualsAndHashCode(exclude = "design")
-public class Panel {
+@EqualsAndHashCode
+public class Panel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +20,6 @@ public class Panel {
     private Long id;
     private Integer wattsPk;
     private Double voltage;
+    private static final long serialVersionUID = 42L;
 
 }
