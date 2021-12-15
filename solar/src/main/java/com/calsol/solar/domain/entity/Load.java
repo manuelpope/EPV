@@ -1,7 +1,6 @@
 package com.calsol.solar.domain.entity;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,19 +11,21 @@ import java.io.Serializable;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class Load implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    private Long id;
     private Double power110VoltsAC;
     private Double power12VoltsDC;
     private Double energyDay;
     private Double energyNight;
     private Double totalEnergy;
     private String type;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "design_id", nullable = false)
-    private Design design;
     private static final long serialVersionUID = 42L;
 
 }

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,8 +42,9 @@ public class Design implements Serializable {
     private Panel panel;
 
 
-    @OneToMany(mappedBy = "design", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Load> loadList;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "fk_design_id")
+    private List<Load> loadList = new ArrayList<>();
 
     public void setCondition(Condition condition) {
         this.condition = condition;
@@ -50,6 +52,12 @@ public class Design implements Serializable {
 
     public void setPanel(Panel panel) {
         this.panel = panel;
+    }
+
+    public void setLoadList(List<Load> loadList) {
+
+        this.loadList.addAll(loadList);
+
     }
 }
 

@@ -134,7 +134,7 @@ public class ControllerDesign {
 
     }
 
-    @PostMapping("/load")
+    @PostMapping("/loads")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity addLoadsDesign(@RequestBody @Valid SelectionLoadDto selectionLoadDto) {
 
@@ -145,7 +145,8 @@ public class ControllerDesign {
             design.setLoadList(loadList);
             contextDesign.update(design);
 
-            return ResponseEntity.ok(design);
+
+            return ResponseEntity.ok(repositoryDesign.save(design));
 
         } catch (Exception e) {
             log.info(e.getMessage());
