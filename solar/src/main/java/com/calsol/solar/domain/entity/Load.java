@@ -16,6 +16,7 @@ import java.io.Serializable;
 @ToString
 @EqualsAndHashCode
 public class Load implements Serializable {
+    private static final long serialVersionUID = 42L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -26,6 +27,5 @@ public class Load implements Serializable {
     private Double energyNight;
     private Double totalEnergy;
     private String type;
-    private static final long serialVersionUID = 42L;
 
 }

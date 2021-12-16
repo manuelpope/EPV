@@ -1,7 +1,7 @@
 package com.calsol.solar.domain.dto;
 
-import com.calsol.solar.domain.entity.Condition;
 import com.calsol.solar.domain.IDevice;
+import com.calsol.solar.domain.entity.Condition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

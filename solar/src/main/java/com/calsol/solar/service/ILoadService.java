@@ -10,20 +10,66 @@ import java.util.List;
  */
 public interface ILoadService {
 
-    public Double power12VoltsDC(LoadDto loadDto);
+    /**
+     * Power 12 volts dc double.
+     *
+     * @param loadDto the load dto
+     * @return the double
+     */
+    Double power12VoltsDC(LoadDto loadDto);
 
-    public Double power110VoltsAC(LoadDto loadDto);
+    /**
+     * Power 110 volts ac double.
+     *
+     * @param loadDto the load dto
+     * @return the double
+     */
+    Double power110VoltsAC(LoadDto loadDto);
 
-    public Double energyDay(LoadDto loadDto);
+    /**
+     * Energy day double.
+     *
+     * @param loadDto the load dto
+     * @return the double
+     */
+    Double energyDay(LoadDto loadDto);
 
-    public Double energyNight(LoadDto loadDto);
+    /**
+     * Energy night double.
+     *
+     * @param loadDto the load dto
+     * @return the double
+     */
+    Double energyNight(LoadDto loadDto);
 
-    public Double totalEnergy(LoadDto loadDto);
+    /**
+     * Total energy double.
+     *
+     * @param loadDto the load dto
+     * @return the double
+     */
+    Double totalEnergy(LoadDto loadDto);
 
-    public String setType(LoadDto loadDto);
+    /**
+     * Sets type.
+     *
+     * @param loadDto the load dto
+     * @return the type
+     */
+    String setType(LoadDto loadDto);
 
-    public void loadDtoList(List<LoadDto> loadDtoList);
+    /**
+     * Load dto list.
+     *
+     * @param loadDtoList the load dto list
+     */
+    void loadDtoList(List<LoadDto> loadDtoList);
 
-    public List<Load> buildLoads();
+    /**
+     * Build loads list.
+     *
+     * @return the list
+     */
+    List<Load> buildLoads();
 
 }

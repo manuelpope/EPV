@@ -1,7 +1,6 @@
 package com.calsol.solar.controller;
 
 import com.calsol.solar.domain.dto.ConditionDto;
-import com.calsol.solar.domain.dto.LoadDto;
 import com.calsol.solar.domain.dto.PanelDto;
 import com.calsol.solar.domain.dto.SelectionLoadDto;
 import com.calsol.solar.domain.entity.Condition;
@@ -114,6 +113,12 @@ public class ControllerDesign {
 
     }
 
+    /**
+     * Add panel design response entity.
+     *
+     * @param panelDto the panel dto
+     * @return the response entity
+     */
     @PostMapping("/panel")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity addPanelDesign(@RequestBody @Valid PanelDto panelDto) {
@@ -134,6 +139,12 @@ public class ControllerDesign {
 
     }
 
+    /**
+     * Add loads design response entity.
+     *
+     * @param selectionLoadDto the selection load dto
+     * @return the response entity
+     */
     @PostMapping("/loads")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity addLoadsDesign(@RequestBody @Valid SelectionLoadDto selectionLoadDto) {

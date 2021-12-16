@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * The type Selection load dto.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

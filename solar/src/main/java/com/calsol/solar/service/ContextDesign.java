@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,6 +30,7 @@ public class ContextDesign {
      *
      * @param nameDesign the name design
      * @return the design
+     * @throws Exception the exception
      */
     public Design getDesign(String nameDesign) throws Exception {
         assertExistenceDesign(nameDesign);

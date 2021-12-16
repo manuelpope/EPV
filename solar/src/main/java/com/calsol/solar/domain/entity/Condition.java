@@ -18,12 +18,11 @@ import java.io.Serializable;
 public class Condition implements Serializable {
 
 
+    private static final long serialVersionUID = 42L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
     private Double powerArea;
-    private Double autonomy;
-
-    private static final long serialVersionUID = 42L;
+    private Double demandedAutonomy;
 }

@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(exclude = {"condition", "panel"})
+@EqualsAndHashCode(exclude = {"condition", "panel", "sizingDesign"})
 @Builder
 public class Design implements Serializable {
 
@@ -41,19 +41,38 @@ public class Design implements Serializable {
     @JoinColumn(name = "fk_panel")
     private Panel panel;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_sizing")
+    private SizingDesign sizingDesign;
+
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "fk_design_id")
     private List<Load> loadList = new ArrayList<>();
 
+    /**
+     * Sets condition.
+     *
+     * @param condition the condition
+     */
     public void setCondition(Condition condition) {
         this.condition = condition;
     }
 
+    /**
+     * Sets panel.
+     *
+     * @param panel the panel
+     */
     public void setPanel(Panel panel) {
         this.panel = panel;
     }
 
+    /**
+     * Sets load list.
+     *
+     * @param loadList the load list
+     */
     public void setLoadList(List<Load> loadList) {
 
         this.loadList.addAll(loadList);

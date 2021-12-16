@@ -5,5 +5,10 @@ package com.calsol.solar.domain;
  */
 public interface IDevice {
 
-    public String getNameDesign();
+    /**
+     * Gets name design.
+     *
+     * @return the name design
+     */
+    String getNameDesign();
 }
