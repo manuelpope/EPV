@@ -5,7 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * The type Sizing design.
@@ -15,9 +16,13 @@ import javax.persistence.Entity;
 @ToString
 @Entity
 @EqualsAndHashCode
-public class SizingDesign {
+public class SizingDesign implements Serializable {
 
-
+    private static final long serialVersionUID = 42L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
     private Integer quantityPanels;
 
     private Integer quantityBatteries;

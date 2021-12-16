@@ -3,13 +3,11 @@ package com.calsol.solar.controller;
 import com.calsol.solar.domain.dto.ConditionDto;
 import com.calsol.solar.domain.dto.PanelDto;
 import com.calsol.solar.domain.dto.SelectionLoadDto;
-import com.calsol.solar.domain.entity.Condition;
-import com.calsol.solar.domain.entity.Design;
-import com.calsol.solar.domain.entity.Load;
-import com.calsol.solar.domain.entity.Panel;
+import com.calsol.solar.domain.entity.*;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
 import com.calsol.solar.service.ContextDesign;
 import com.calsol.solar.service.ILoadService;
+import com.calsol.solar.util.CalculatorElectricalProcess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -156,8 +154,35 @@ public class ControllerDesign {
             design.setLoadList(loadList);
             contextDesign.update(design);
 
+            // repositoryDesign.save(design);
+            return ResponseEntity.ok(design);
 
-            return ResponseEntity.ok(repositoryDesign.save(design));
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+
+    }
+
+    /**
+     * Add loads design response entity.
+     *
+     * @param nameDesign the name design
+     * @return the response entity
+     */
+    @GetMapping("/submit/{nameDesign}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity addLoadsDesign(@PathVariable("nameDesign") String nameDesign) {
+
+        try {
+            Design design = contextDesign.getDesign(nameDesign);
+            SizingDesign sizingDesign = new SizingDesign();
+            CalculatorElectricalProcess.buildSizing(sizingDesign, design);
+            design.setSizingDesign(sizingDesign);
+
+            // repositoryDesign.save(design);
+            return ResponseEntity.ok(design);
 
         } catch (Exception e) {
             log.info(e.getMessage());

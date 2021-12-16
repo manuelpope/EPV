@@ -26,6 +26,6 @@ public class ConditionDto implements IDevice {
      */
     public Condition getCondition() {
 
-        return Condition.builder().powerArea(powerArea).autonomy(autonomy).build();
+        return Condition.builder().powerArea(powerArea).demandedAutonomy(autonomy).build();
     }
 }

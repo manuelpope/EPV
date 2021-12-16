@@ -3,10 +3,6 @@ package com.calsol.solar.util;
 import com.calsol.solar.domain.entity.Design;
 import com.calsol.solar.domain.entity.Load;
 import com.calsol.solar.domain.entity.SizingDesign;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,10 +10,6 @@ import java.util.stream.Collectors;
 /**
  * The type Utils electrical specialist.
  */
-@Service
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UtilsElectricalSpecialist {
 
 
