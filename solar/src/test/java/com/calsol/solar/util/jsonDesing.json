@@ -1,0 +1,27 @@
+{
+  "id": null,
+  "name": "test_3",
+  "localDateTime": "2021-12-17T12:41:30",
+  "condition": {
+    "id": null,
+    "powerArea": 15.0,
+    "demandedAutonomy": 0.3
+  },
+  "panel": {
+    "id": null,
+    "wattsPk": 230,
+    "voltage": 24.0
+  },
+  "sizingDesign": null,
+  "loadList": [
+    {
+      "id": null,
+      "power110VoltsAC": 24.0,
+      "power12VoltsDC": 0.0,
+      "energyDay": 168.0,
+      "energyNight": 168.0,
+      "totalEnergy": 336.0,
+      "type": "AC"
+    }
+  ]
+}

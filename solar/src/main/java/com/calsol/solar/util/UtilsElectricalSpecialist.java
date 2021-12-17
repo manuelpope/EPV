@@ -78,6 +78,7 @@ public class UtilsElectricalSpecialist {
     public static void setPower110(SizingDesign s, Design d) {
 
         List<Double> doubles = d.getLoadList().stream().map(Load::getPower110VoltsAC).collect(Collectors.toList());
+        doubles.add(0.0);
         Double sum = doubles.stream()
                 .reduce(0.0, Double::sum);
 
@@ -96,7 +97,7 @@ public class UtilsElectricalSpecialist {
         Double sum = doubles.stream()
                 .reduce(0.0, Double::sum);
 
-        s.setAllPower110(sum);
+        s.setAllPower12(sum);
     }
 
     /**
@@ -142,7 +143,7 @@ public class UtilsElectricalSpecialist {
     public static void setBatteriesQuantity(SizingDesign s, Design d) {
         s.setCurrentStorageBank(s.getCurrentStorage() / DISCHARGE_FACTOR);
         //2 in series batteries to reach 24 V
-        s.setQuantityBatteries(2 * (int) Math.ceil(s.getCurrentStorage() / DISCHARGE_FACTOR));
+        s.setQuantityBatteries(2 * (int) Math.ceil((s.getCurrentStorage() / DISCHARGE_FACTOR) / 100.0));
     }
 
     /**

@@ -74,6 +74,9 @@ public class Design implements Serializable {
      * @param loadList the load list
      */
     public void setLoadList(List<Load> loadList) {
+        if (this.loadList == null) {
+            this.loadList = new ArrayList<>();
+        }
 
         this.loadList.addAll(loadList);
 
