@@ -19,7 +19,7 @@ class CalculatorElectricalProcessTest {
         design = Design.builder().name("test").localDateTime(LocalDateTime.now(TimeZone.getTimeZone("UTC").toZoneId())).build();
         Condition condition = Condition.builder().demandedAutonomy(0.3).powerArea(3.8).build();
         Panel panel = Panel.builder().voltage(24.0).wattsPk(230).build();
-
+        //TODO check logic of sizing , first make and spreadsheet to have this design
         Load l1 = Load.builder().energyDay(160.0).totalEnergy(160.0).energyNight(0.0).power12VoltsDC(20.0).power110VoltsAC(0.0).type("DC").build();
         Load l2 = Load.builder().energyDay(150.0).energyNight(60.0).totalEnergy(210.0).power110VoltsAC(30.0).power12VoltsDC(0.0).type("AC").build();
         Load l3 = Load.builder().energyDay(0.0).energyNight(200.0).totalEnergy(200.0).power110VoltsAC(190.0).power12VoltsDC(0.0).type("AC").build();
