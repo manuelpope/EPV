@@ -1,0 +1,42 @@
+curl --request POST \
+  --url http://127.0.0.1:8081/v1/calc/init \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"name": "test_3"
+}'
+
+
+curl --request GET \
+  --url http://127.0.0.1:8081/v1/calc/context
+
+
+  curl --request POST \
+    --url http://127.0.0.1:8081/v1/calc/condition \
+    --header 'Content-Type: application/json' \
+    --data '{
+  	"nameDesign": "test_3",
+  	"powerArea":3.8,
+  	"autonomy":0.3
+  }'
+
+curl --request POST \
+  --url http://127.0.0.1:8081/v1/calc/panel \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"nameDesign": "test_3",
+	"wattsPk":230,
+	"voltage":24
+}'
+
+curl --request POST \
+  --url http://127.0.0.1:8081/v1/calc/loads \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"nameDesign": "test_3",
+	"loadDtoList":[{"voltage":110,
+	"powerDC":24,
+	"quantity":2,
+	"workingDayHours":7,
+	"workingNightHours":7}]
+
+}'
