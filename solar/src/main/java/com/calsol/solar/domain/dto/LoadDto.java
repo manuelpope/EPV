@@ -14,7 +14,7 @@ public class LoadDto {
 //TODO Mono change name of powerDC and check the whole flow
     private String type;
     private Double voltage;
-    private Double powerDC;
+    private Double power;
     private Integer quantity;
     private Double workingDayHours;
     private Double workingNightHours;

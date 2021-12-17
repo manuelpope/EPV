@@ -33,23 +33,23 @@ public class ElectricalEngineerService implements ILoadService {
     @Override
     public Double power12VoltsDC(LoadDto loadDto) {
         return Optional.ofNullable(loadDto).filter(LOAD_DTO_PREDICATE_12)
-                .map(r -> r.getPowerDC() * r.getQuantity()).orElse(0.0);
+                .map(r -> r.getPower() * r.getQuantity()).orElse(0.0);
     }
 
     @Override
     public Double power110VoltsAC(LoadDto loadDto) {
         return Optional.ofNullable(loadDto).filter(LOAD_DTO_PREDICATE_110)
-                .map(r -> r.getPowerDC() * r.getQuantity()).orElse(0.0);
+                .map(r -> r.getPower() * r.getQuantity()).orElse(0.0);
     }
 
     @Override
     public Double energyDay(LoadDto loadDto) {
-        return loadDto.getWorkingDayHours() * loadDto.getQuantity() * loadDto.getPowerDC();
+        return loadDto.getWorkingDayHours() * loadDto.getQuantity() * loadDto.getPower();
     }
 
     @Override
     public Double energyNight(LoadDto loadDto) {
-        return loadDto.getWorkingNightHours() * loadDto.getQuantity() * loadDto.getPowerDC();
+        return loadDto.getWorkingNightHours() * loadDto.getQuantity() * loadDto.getPower();
 
     }
 

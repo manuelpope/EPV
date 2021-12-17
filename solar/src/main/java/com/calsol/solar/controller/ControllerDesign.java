@@ -92,10 +92,7 @@ public class ControllerDesign {
     @GetMapping("/context")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity getAllContext() {
-
         return ResponseEntity.ok(contextDesign.getContext().entrySet());
-
-
     }
 
     /**
