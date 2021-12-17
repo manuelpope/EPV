@@ -3,11 +3,16 @@ package com.calsol.solar.controller;
 import com.calsol.solar.domain.dto.ConditionDto;
 import com.calsol.solar.domain.dto.PanelDto;
 import com.calsol.solar.domain.dto.SelectionLoadDto;
-import com.calsol.solar.domain.entity.*;
+import com.calsol.solar.domain.entity.Design;
+import com.calsol.solar.domain.entity.Load;
+import com.calsol.solar.domain.entity.Panel;
+import com.calsol.solar.domain.entity.SizingDesign;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
 import com.calsol.solar.service.ContextDesign;
 import com.calsol.solar.service.ILoadService;
+import com.calsol.solar.service.ServiceDesignBuild;
 import com.calsol.solar.util.CalculatorElectricalProcess;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +25,14 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.TimeZone;
 
-
+//Todo separate logic from controller, moving to service design build mono
 /**
  * The type Controller design.
  */
 @RestController
 @RequestMapping("/v1/calc")
 @Slf4j
+@Data
 public class ControllerDesign {
 
     private final ZoneId zoneId;
@@ -36,15 +42,22 @@ public class ControllerDesign {
     private ContextDesign contextDesign;
     @Autowired
     private ILoadService loadService;
-
+    @Autowired
+    private ServiceDesignBuild serviceDesignBuild;
 
     /**
      * Instantiates a new Controller design.
      *
-     * @param IRepositoryDesign the repository design
+     * @param IRepositoryDesign  the repository design
+     * @param contextDesign
+     * @param loadService
+     * @param serviceDesignBuild
      */
-    public ControllerDesign(IRepositoryDesign IRepositoryDesign) {
+    public ControllerDesign(IRepositoryDesign IRepositoryDesign, ContextDesign contextDesign, ILoadService loadService, ServiceDesignBuild serviceDesignBuild) {
         this.repositoryDesign = IRepositoryDesign;
+        this.contextDesign = contextDesign;
+        this.loadService = loadService;
+        this.serviceDesignBuild = serviceDesignBuild;
         this.zoneId = TimeZone.getTimeZone("UTC").toZoneId();
     }
 
@@ -96,10 +109,7 @@ public class ControllerDesign {
     public ResponseEntity addConditionDesign(@RequestBody @Valid ConditionDto conditionDto) {
 
         try {
-            Design design = contextDesign.getDesign(conditionDto.getNameDesign());
-            Condition condition = conditionDto.getCondition();
-            design.setCondition(condition);
-            contextDesign.update(design);
+            Design design = serviceDesignBuild.setConditionDesign(conditionDto);
 
             return ResponseEntity.ok(design);
 
@@ -110,6 +120,7 @@ public class ControllerDesign {
 
 
     }
+
 
     /**
      * Add panel design response entity.

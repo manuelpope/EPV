@@ -21,15 +21,12 @@ public class ElectricalEngineerService implements ILoadService {
     /**
      * The constant LOAD_DTO_PREDICATE_12.
      */
-    public static final Predicate<LoadDto> LOAD_DTO_PREDICATE_12 = s -> Math.abs(s.getVoltage() - 12.0) < 0.000001d;
+    public static final Predicate<LoadDto> LOAD_DTO_PREDICATE_12 = s -> Math.abs(s.getVoltage() - 12.0) < 0.0001d;
     /**
      * The constant LOAD_DTO_PREDICATE_110.
      */
-    public static final Predicate<LoadDto> LOAD_DTO_PREDICATE_110 = s -> Math.abs(s.getVoltage() - 110.0) < 0.000001d;
-    /**
-     * The constant LOAD_DTO_PREDICATE_TYPE.
-     */
-    public static final Predicate<LoadDto> LOAD_DTO_PREDICATE_TYPE = s -> Math.abs(s.getVoltage() - 12.0) < 0.000001d;
+    public static final Predicate<LoadDto> LOAD_DTO_PREDICATE_110 = s -> Math.abs(s.getVoltage() - 110.0) < 0.0001d;
+
     private List<LoadDto> loadDtoList = new ArrayList<>();
 
 
@@ -63,7 +60,7 @@ public class ElectricalEngineerService implements ILoadService {
 
     @Override
     public String setType(LoadDto loadDto) {
-        return Optional.ofNullable(loadDto).filter(LOAD_DTO_PREDICATE_TYPE)
+        return Optional.ofNullable(loadDto).filter(LOAD_DTO_PREDICATE_12)
                 .map(s -> "DC").orElse("AC");
     }
 
@@ -78,7 +75,7 @@ public class ElectricalEngineerService implements ILoadService {
      * @param loadDto the load dto
      * @return the load
      */
-    public Load calculateLoad(LoadDto loadDto) {
+    private Load calculateLoad(LoadDto loadDto) {
         return Load.builder().power110VoltsAC(this.power110VoltsAC(loadDto))
                 .power12VoltsDC(this.power12VoltsDC(loadDto))
                 .energyDay(energyDay(loadDto))
