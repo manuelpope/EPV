@@ -185,7 +185,10 @@ public class ControllerDesign {
     @GetMapping("/submit/{nameDesign}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity addLoadsDesign(@PathVariable("nameDesign") String nameDesign) {
-
+//*todo Create an extra endpoint/sizing/{nameDesign} to do actions as buildSizing
+// and setSizing and current for saving
+//
+// */
         try {
             Design design = contextDesign.getDesign(nameDesign);
             SizingDesign sizingDesign = new SizingDesign();
