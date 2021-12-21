@@ -4,7 +4,6 @@ import com.calsol.solar.domain.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.TimeZone;
@@ -17,7 +16,7 @@ class CalculatorElectricalProcessTest {
     private Design design;
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() {
 
         design = Design.builder().name("test").localDateTime(LocalDateTime.now(TimeZone.getTimeZone("UTC").toZoneId())).build();
         Condition condition = Condition.builder().demandedAutonomy(0.3).powerArea(3.8).build();
