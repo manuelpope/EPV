@@ -41,7 +41,7 @@ public class UtilsElectricalSpecialist {
      */
     public static void setTotalNightEnergy(SizingDesign sizingDesign, Design design) {
 
-        List<Double> doubles = design.getLoadList().stream().map(Load::getEnergyDay).collect(Collectors.toList());
+        List<Double> doubles = design.getLoadList().stream().map(Load::getEnergyNight).collect(Collectors.toList());
         Double sum = doubles.stream()
                 .reduce(0.0, Double::sum);
 
@@ -55,7 +55,7 @@ public class UtilsElectricalSpecialist {
      */
     public static void setAllDemandEnergy(SizingDesign sizingDesign) {
 
-        sizingDesign.setTotalEnergy(sizingDesign.getAllEnergyDay() + sizingDesign.getAllEnergyDay());
+        sizingDesign.setTotalEnergy(sizingDesign.getAllEnergyDay() + sizingDesign.getAllEnergyNight());
     }
 
 
@@ -66,7 +66,7 @@ public class UtilsElectricalSpecialist {
      */
     public static void setAutonomySystem(SizingDesign s) {
 
-        s.setAutonomySystem(s.getAllEnergyNight() / s.getAllEnergyDay());
+        s.setAutonomySystem(s.getAllEnergyNight() / s.getTotalEnergy());
     }
 
     /**
@@ -156,7 +156,7 @@ public class UtilsElectricalSpecialist {
 
         s.setCurrentMAXControllerIn(Math.ceil(d.getPanel().getWattsPk() * s.getQuantityPanels() / d.getPanel().getVoltage()));
         // remember Inverter goes directly connected to bank
-        s.setCurrentMAXControllerOut(Math.ceil(s.getAllPower110() / (0.85 * 0.95)));
+        s.setCurrentMAXControllerOut(Math.ceil(s.getAllPower110() / (0.85 * d.getPanel().getVoltage())));
 
         s.setOutputCurrentBattery12V(Math.ceil(s.getAllPower12() / 12.0));
 
