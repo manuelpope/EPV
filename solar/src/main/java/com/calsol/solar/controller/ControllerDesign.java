@@ -4,14 +4,10 @@ import com.calsol.solar.domain.dto.ConditionDto;
 import com.calsol.solar.domain.dto.PanelDto;
 import com.calsol.solar.domain.dto.SelectionLoadDto;
 import com.calsol.solar.domain.entity.Design;
-import com.calsol.solar.domain.entity.Load;
-import com.calsol.solar.domain.entity.Panel;
-import com.calsol.solar.domain.entity.SizingDesign;
 import com.calsol.solar.repository.dao.IRepositoryDesign;
 import com.calsol.solar.service.ContextDesign;
 import com.calsol.solar.service.ILoadService;
 import com.calsol.solar.service.ServiceDesignBuild;
-import com.calsol.solar.util.CalculatorElectricalProcess;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.TimeZone;
 
 /**
