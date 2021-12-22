@@ -25,7 +25,6 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.TimeZone;
 
-//Todo separate logic from controller, moving to service design build mono
 /**
  * The type Controller design.
  */
@@ -92,10 +91,7 @@ public class ControllerDesign {
     @GetMapping("/context")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity getAllContext() {
-
         return ResponseEntity.ok(contextDesign.getContext().entrySet());
-
-
     }
 
     /**
@@ -110,7 +106,6 @@ public class ControllerDesign {
 
         try {
             Design design = serviceDesignBuild.setConditionDesign(conditionDto);
-
             return ResponseEntity.ok(design);
 
         } catch (Exception e) {
@@ -133,11 +128,7 @@ public class ControllerDesign {
     public ResponseEntity addPanelDesign(@RequestBody @Valid PanelDto panelDto) {
 
         try {
-            Design design = contextDesign.getDesign(panelDto.getNameDesign());
-            Panel panel = panelDto.getPanel();
-            design.setPanel(panel);
-            contextDesign.update(design);
-
+            Design design = serviceDesignBuild.setConditionPanel(panelDto);
             return ResponseEntity.ok(design);
 
         } catch (Exception e) {
@@ -159,12 +150,7 @@ public class ControllerDesign {
     public ResponseEntity addLoadsDesign(@RequestBody @Valid SelectionLoadDto selectionLoadDto) {
 
         try {
-            Design design = contextDesign.getDesign(selectionLoadDto.getNameDesign());
-            loadService.loadDtoList(selectionLoadDto.getLoadDtoList());
-            List<Load> loadList = loadService.buildLoads();
-            design.setLoadList(loadList);
-            contextDesign.update(design);
-
+            Design design = serviceDesignBuild.setConditionLoad(selectionLoadDto);
             // repositoryDesign.save(design);
             return ResponseEntity.ok(design);
 
@@ -190,11 +176,7 @@ public class ControllerDesign {
 //
 // */
         try {
-            Design design = contextDesign.getDesign(nameDesign);
-            SizingDesign sizingDesign = new SizingDesign();
-            CalculatorElectricalProcess.buildSizing(sizingDesign, design);
-            design.setSizingDesign(sizingDesign);
-
+            Design design = serviceDesignBuild.setConditionName(nameDesign);
             // repositoryDesign.save(design);
             return ResponseEntity.ok(design);
 
