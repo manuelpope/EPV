@@ -50,7 +50,7 @@ class CalculatorElectricalProcessTest {
         assertTrue(0.001 > (s.getTotalEnergy() - 810.0));
         assertTrue(0.001 > (s.getAllEnergyNight() - 320.0));
         assertTrue(0.001 > (s.getAllEnergyDay() - 490.0));
-        assertTrue(0.001 > (s.getAutonomySystem() - 0.395));
+        assertTrue(0.001 > (s.getAutonomySystem() - 0.40));
         assertTrue(0.1 > (s.getCurrentMAXControllerIn() - 20));
         assertTrue(0.1 > (s.getCurrentStorage() - 16.5));
         assertTrue(0.1 > (s.getCurrentMAXControllerOut() - 13));

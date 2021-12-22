@@ -26,7 +26,7 @@ public class CalculatorElectricalProcess extends UtilsElectricalSpecialist {
         setPowerPV(s, d);
         setPanelQuantity(s, d);
         setCurrentStorage(s, d);
-        setBatteriesQuantity(s, d);
+        setBatteriesQuantity(s);
         setLimitsCurrentController(s, d);
         setPowerInverterVAC(s);
     }

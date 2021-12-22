@@ -55,21 +55,24 @@ public interface ILoadService {
      *
      * @param loadDto the load dto
      * @return the type
+     * @throws Exception the exception
      */
-    String setType(LoadDto loadDto);
+    String setType(LoadDto loadDto) throws Exception;
 
     /**
      * Load dto list.
      *
      * @param loadDtoList the load dto list
+     * @throws Exception the exception
      */
-    void loadDtoList(List<LoadDto> loadDtoList);
+    void loadDtoList(List<LoadDto> loadDtoList) throws Exception;
 
     /**
      * Build loads list.
      *
      * @return the list
+     * @throws Exception the exception
      */
-    List<Load> buildLoads();
+    List<Load> buildLoads() throws Exception;
 
 }

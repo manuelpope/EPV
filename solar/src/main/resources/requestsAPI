@@ -34,7 +34,7 @@ curl --request POST \
   --data '{
 	"nameDesign": "test_3",
 	"loadDtoList":[{"voltage":110,
-	"powerDC":24,
+	"power":24,
 	"quantity":2,
 	"workingDayHours":7,
 	"workingNightHours":7}]

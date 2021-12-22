@@ -29,6 +29,17 @@ public class ElectricalEngineerService implements ILoadService {
 
     private List<LoadDto> loadDtoList = new ArrayList<>();
 
+    /**
+     * Validation safe type.
+     *
+     * @param l the l
+     * @throws Exception the exception
+     */
+    public static void validationSafeType(LoadDto l) throws Exception {
+
+        Optional.ofNullable(l).filter(LOAD_DTO_PREDICATE_12).filter(LOAD_DTO_PREDICATE_110).orElseThrow(() -> new Exception("Not a valid voltage(110 or 12) -- " + l.getVoltage()));
+
+    }
 
     @Override
     public Double power12VoltsDC(LoadDto loadDto) {
@@ -65,7 +76,10 @@ public class ElectricalEngineerService implements ILoadService {
     }
 
     @Override
-    public void loadDtoList(List<LoadDto> loadDtoList) {
+    public void loadDtoList(List<LoadDto> loadDtoList) throws Exception {
+        if ((loadDtoList.stream().filter(LOAD_DTO_PREDICATE_110.negate()).anyMatch(LOAD_DTO_PREDICATE_12.negate()))) {
+            throw new Exception("Not a valid voltage(110 or 12) --");
+        }
         this.loadDtoList = loadDtoList;
     }
 

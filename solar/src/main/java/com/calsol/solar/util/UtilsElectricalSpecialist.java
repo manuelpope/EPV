@@ -5,6 +5,7 @@ import com.calsol.solar.domain.entity.Load;
 import com.calsol.solar.domain.entity.SizingDesign;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -14,9 +15,37 @@ public class UtilsElectricalSpecialist {
 
 
     /**
+     * The constant OVER_SCALE_DESIGN_FACTOR.
+     */
+    public static final double OVER_SCALE_DESIGN_FACTOR = 1.6;
+    /**
+     * The constant POWER_FACTOR_LOAD.
+     */
+    public static final double POWER_FACTOR_LOAD = 0.9;
+    /**
+     * The constant EFFICIENCY_CONTROLLER.
+     */
+    public static final double EFFICIENCY_CONTROLLER = 0.85;
+    /**
+     * The constant VOLTAGE_SINGLE_BATTERY.
+     */
+    public static final double VOLTAGE_SINGLE_BATTERY = 12.0;
+    /**
+     * The constant CURRENT_STORE_BATTERY_COLUMN.
+     */
+    public static final double CURRENT_STORE_BATTERY_COLUMN = 100.0;
+    /**
+     * The constant EFFICIENCY_INVERTER.
+     */
+    public static final double EFFICIENCY_INVERTER = 0.95;
+    /**
      * The constant DISCHARGE_FACTOR.
      */
     private static final Double DISCHARGE_FACTOR = 0.3;
+    /**
+     * The Rounding 2 decimals.
+     */
+    public static Function<Double, Double> rounding2Decimals = s -> Math.round(s * 100.0) / 100.0;
 
     /**
      * Sets total day energy.
@@ -30,7 +59,7 @@ public class UtilsElectricalSpecialist {
         Double sum = doubles.stream()
                 .reduce(0.0, Double::sum);
 
-        sizingDesign.setAllEnergyDay(sum);
+        sizingDesign.setAllEnergyDay(rounding2Decimals.apply(sum));
     }
 
     /**
@@ -45,7 +74,7 @@ public class UtilsElectricalSpecialist {
         Double sum = doubles.stream()
                 .reduce(0.0, Double::sum);
 
-        sizingDesign.setAllEnergyNight(sum);
+        sizingDesign.setAllEnergyNight(rounding2Decimals.apply(sum));
     }
 
     /**
@@ -55,9 +84,8 @@ public class UtilsElectricalSpecialist {
      */
     public static void setAllDemandEnergy(SizingDesign sizingDesign) {
 
-        sizingDesign.setTotalEnergy(sizingDesign.getAllEnergyDay() + sizingDesign.getAllEnergyNight());
+        sizingDesign.setTotalEnergy(rounding2Decimals.apply(sizingDesign.getAllEnergyDay() + sizingDesign.getAllEnergyNight()));
     }
-
 
     /**
      * Sets autonomy system.
@@ -66,7 +94,7 @@ public class UtilsElectricalSpecialist {
      */
     public static void setAutonomySystem(SizingDesign s) {
 
-        s.setAutonomySystem(s.getAllEnergyNight() / s.getTotalEnergy());
+        s.setAutonomySystem(rounding2Decimals.apply(s.getAllEnergyNight() / s.getTotalEnergy()));
     }
 
     /**
@@ -82,7 +110,7 @@ public class UtilsElectricalSpecialist {
         Double sum = doubles.stream()
                 .reduce(0.0, Double::sum);
 
-        s.setAllPower110(sum);
+        s.setAllPower110(rounding2Decimals.apply(sum));
     }
 
     /**
@@ -97,7 +125,7 @@ public class UtilsElectricalSpecialist {
         Double sum = doubles.stream()
                 .reduce(0.0, Double::sum);
 
-        s.setAllPower12(sum);
+        s.setAllPower12(rounding2Decimals.apply(sum));
     }
 
     /**
@@ -108,7 +136,7 @@ public class UtilsElectricalSpecialist {
      */
     public static void setPowerPV(SizingDesign s, Design d) {
 
-        s.setPowerPV(s.getTotalEnergy() / (d.getCondition().getPowerArea() * 0.85 * 0.95));
+        s.setPowerPV(rounding2Decimals.apply(s.getTotalEnergy() / (d.getCondition().getPowerArea() * EFFICIENCY_CONTROLLER * EFFICIENCY_INVERTER)));
 
     }
 
@@ -131,19 +159,18 @@ public class UtilsElectricalSpecialist {
      */
     public static void setCurrentStorage(SizingDesign s, Design d) {
 
-        s.setCurrentStorage(s.getAllEnergyNight() / (0.85 * 0.95 * d.getPanel().getVoltage()));
+        s.setCurrentStorage(rounding2Decimals.apply(s.getAllEnergyNight() / (EFFICIENCY_CONTROLLER * EFFICIENCY_INVERTER * d.getPanel().getVoltage())));
     }
 
     /**
      * Sets batteries quantity.
      *
      * @param s the s
-     * @param d the d
      */
-    public static void setBatteriesQuantity(SizingDesign s, Design d) {
-        s.setCurrentStorageBank(s.getCurrentStorage() / DISCHARGE_FACTOR);
+    public static void setBatteriesQuantity(SizingDesign s) {
+        s.setCurrentStorageBank(rounding2Decimals.apply(s.getCurrentStorage() / DISCHARGE_FACTOR));
         //2 in series batteries to reach 24 V
-        s.setQuantityBatteries(2 * (int) Math.ceil((s.getCurrentStorage() / DISCHARGE_FACTOR) / 100.0));
+        s.setQuantityBatteries(2 * (int) Math.ceil((s.getCurrentStorage() / DISCHARGE_FACTOR) / CURRENT_STORE_BATTERY_COLUMN));
     }
 
     /**
@@ -156,9 +183,9 @@ public class UtilsElectricalSpecialist {
 
         s.setCurrentMAXControllerIn(Math.ceil(d.getPanel().getWattsPk() * s.getQuantityPanels() / d.getPanel().getVoltage()));
         // remember Inverter goes directly connected to bank
-        s.setCurrentMAXControllerOut(Math.ceil(s.getAllPower110() / (0.85 * d.getPanel().getVoltage())));
+        s.setCurrentMAXControllerOut(Math.ceil(s.getAllPower110() / (EFFICIENCY_CONTROLLER * d.getPanel().getVoltage())));
 
-        s.setOutputCurrentBattery12V(Math.ceil(s.getAllPower12() / 12.0));
+        s.setOutputCurrentBattery12V(Math.ceil(s.getAllPower12() / VOLTAGE_SINGLE_BATTERY));
 
 
     }
@@ -170,7 +197,7 @@ public class UtilsElectricalSpecialist {
      */
     public static void setPowerInverterVAC(SizingDesign s) {
 
-        s.setPowerMinInverter(Math.ceil((s.getAllPower110() * 1.6) / 0.9));
+        s.setPowerMinInverter(Math.ceil((s.getAllPower110() * OVER_SCALE_DESIGN_FACTOR) / POWER_FACTOR_LOAD));
     }
 
 }
