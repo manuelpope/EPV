@@ -32,6 +32,8 @@ public class ControllerDesign {
     private final ZoneId zoneId;
     @Autowired
     private final IRepositoryDesign repositoryDesign;
+    //TODO move logic of RepositoryDesign and ContextDesign to serviceDesignBuild
+
     @Autowired
     private ContextDesign contextDesign;
     @Autowired
@@ -43,9 +45,9 @@ public class ControllerDesign {
      * Instantiates a new Controller design.
      *
      * @param IRepositoryDesign  the repository design
-     * @param contextDesign
-     * @param loadService
-     * @param serviceDesignBuild
+     * @param contextDesign      the context design
+     * @param loadService        the load service
+     * @param serviceDesignBuild the service design build
      */
     public ControllerDesign(IRepositoryDesign IRepositoryDesign, ContextDesign contextDesign, ILoadService loadService, ServiceDesignBuild serviceDesignBuild) {
         this.repositoryDesign = IRepositoryDesign;
@@ -123,7 +125,7 @@ public class ControllerDesign {
     public ResponseEntity addPanelDesign(@RequestBody @Valid PanelDto panelDto) {
 
         try {
-            Design design = serviceDesignBuild.setConditionPanel(panelDto);
+            Design design = serviceDesignBuild.setPanelDesign(panelDto);
             return ResponseEntity.ok(design);
 
         } catch (Exception e) {
@@ -143,10 +145,9 @@ public class ControllerDesign {
     @PostMapping("/loads")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity addLoadsDesign(@RequestBody @Valid SelectionLoadDto selectionLoadDto) {
-
+//TODO validations of double power type , only ac or dc not both
         try {
-            Design design = serviceDesignBuild.setConditionLoad(selectionLoadDto);
-            // repositoryDesign.save(design);
+            Design design = serviceDesignBuild.setLoadDesign(selectionLoadDto);
             return ResponseEntity.ok(design);
 
         } catch (Exception e) {
@@ -166,13 +167,31 @@ public class ControllerDesign {
     @GetMapping("/submit/{nameDesign}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity addLoadsDesign(@PathVariable("nameDesign") String nameDesign) {
-//*todo Create an extra endpoint/sizing/{nameDesign} to do actions as buildSizing
-// and setSizing and current for saving
-//
-// */
+
         try {
-            Design design = serviceDesignBuild.setConditionName(nameDesign);
-            // repositoryDesign.save(design);
+            Design design = serviceDesignBuild.setSizing(nameDesign);
+            return ResponseEntity.ok(repositoryDesign.save(design));
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+
+    }
+
+    /**
+     * Sizing design response entity.
+     *
+     * @param nameDesign the name design
+     * @return the response entity
+     */
+    @GetMapping("/sizing/{nameDesign}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity sizingDesign(@PathVariable("nameDesign") String nameDesign) {
+
+        try {
+            Design design = serviceDesignBuild.setSizing(nameDesign);
             return ResponseEntity.ok(design);
 
         } catch (Exception e) {
