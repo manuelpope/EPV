@@ -4,9 +4,6 @@ import com.calsol.solar.domain.dto.ConditionDto;
 import com.calsol.solar.domain.dto.PanelDto;
 import com.calsol.solar.domain.dto.SelectionLoadDto;
 import com.calsol.solar.domain.entity.Design;
-import com.calsol.solar.repository.dao.IRepositoryDesign;
-import com.calsol.solar.service.ContextDesign;
-import com.calsol.solar.service.ILoadService;
 import com.calsol.solar.service.ServiceDesignBuild;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.TimeZone;
 
 /**
  * The type Controller design.
@@ -29,32 +23,17 @@ import java.util.TimeZone;
 @Data
 public class ControllerDesign {
 
-    private final ZoneId zoneId;
-    @Autowired
-    private final IRepositoryDesign repositoryDesign;
-    //TODO move logic of RepositoryDesign and ContextDesign to serviceDesignBuild
 
-    @Autowired
-    private ContextDesign contextDesign;
-    @Autowired
-    private ILoadService loadService;
     @Autowired
     private ServiceDesignBuild serviceDesignBuild;
 
     /**
      * Instantiates a new Controller design.
      *
-     * @param IRepositoryDesign  the repository design
-     * @param contextDesign      the context design
-     * @param loadService        the load service
      * @param serviceDesignBuild the service design build
      */
-    public ControllerDesign(IRepositoryDesign IRepositoryDesign, ContextDesign contextDesign, ILoadService loadService, ServiceDesignBuild serviceDesignBuild) {
-        this.repositoryDesign = IRepositoryDesign;
-        this.contextDesign = contextDesign;
-        this.loadService = loadService;
+    public ControllerDesign(ServiceDesignBuild serviceDesignBuild) {
         this.serviceDesignBuild = serviceDesignBuild;
-        this.zoneId = TimeZone.getTimeZone("UTC").toZoneId();
     }
 
     /**
@@ -68,8 +47,7 @@ public class ControllerDesign {
     public ResponseEntity putInMap(@RequestBody @Valid Design designInfo) {
 
         try {
-            designInfo.setLocalDateTime(LocalDateTime.now(zoneId));
-            contextDesign.addDesign(designInfo);
+            serviceDesignBuild.addNewDesignContext(designInfo);
             return ResponseEntity.ok(designInfo);
 
         } catch (Exception e) {
@@ -80,6 +58,7 @@ public class ControllerDesign {
 
     }
 
+
     /**
      * Gets all context.
      *
@@ -88,8 +67,9 @@ public class ControllerDesign {
     @GetMapping("/context")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity getAllContext() {
-        return ResponseEntity.ok(contextDesign.getContext().entrySet());
+        return ResponseEntity.ok(serviceDesignBuild.getEntrySet());
     }
+
 
     /**
      * Add condition design response entity.
@@ -164,13 +144,12 @@ public class ControllerDesign {
      * @param nameDesign the name design
      * @return the response entity
      */
-    @GetMapping("/submit/{nameDesign}")
+    @GetMapping("/save/{nameDesign}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity addLoadsDesign(@PathVariable("nameDesign") String nameDesign) {
 
         try {
-            Design design = serviceDesignBuild.setSizing(nameDesign);
-            return ResponseEntity.ok(repositoryDesign.save(design));
+            return ResponseEntity.ok(serviceDesignBuild.saveDesign(nameDesign));
 
         } catch (Exception e) {
             log.info(e.getMessage());
