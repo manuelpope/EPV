@@ -13,10 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TimeZone;
 
 /**
  * The type Service design build.
@@ -113,6 +111,12 @@ public class ServiceDesignBuild {
     }
 
 
+    private static void VALIDATION_READY_TO_CALCULATE(Design design) throws Exception {
+        Optional.ofNullable(design).filter(s -> Objects.nonNull(s.getCondition())).orElseThrow(() -> new Exception("Not condition has been set"));
+        Optional.of(design).filter(s -> Objects.nonNull(s.getPanel())).orElseThrow(() -> new Exception("Not panels have been set"));
+        Optional.of(design).filter(s -> !s.getLoadList().isEmpty()).orElseThrow(() -> new Exception("Not loads have been set"));
+    }
+
     /**
      * Sets sizing.
      *
@@ -122,6 +126,8 @@ public class ServiceDesignBuild {
      */
     public Design setSizing(String nameDesign) throws Exception {
         Design design = contextDesign.getDesign(nameDesign);
+        VALIDATION_READY_TO_CALCULATE(design);
+
         SizingDesign sizingDesign = new SizingDesign();
         CalculatorElectricalProcess.buildSizing(sizingDesign, design);
         design.setSizingDesign(sizingDesign);
