@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.*;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * The type Service design build.
@@ -22,7 +23,6 @@ import java.util.Map.Entry;
 @Service
 @NoArgsConstructor
 public class ServiceDesignBuild {
-    private final ZoneId zoneId = TimeZone.getTimeZone("UTC").toZoneId();
     @Autowired
     private ContextDesign contextDesign;
     @Autowired
@@ -66,7 +66,7 @@ public class ServiceDesignBuild {
      * @throws Exception the exception
      */
     public void addNewDesignContext(Design designInfo) throws Exception {
-        designInfo.setLocalDateTime(LocalDateTime.now(this.zoneId));
+
         contextDesign.addDesign(designInfo);
     }
 

@@ -3,10 +3,12 @@ package com.calsol.solar.service;
 import com.calsol.solar.domain.entity.Design;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -24,18 +26,31 @@ import java.util.function.BiPredicate;
 @Service
 @Slf4j
 public class ContextDesign {
+    private final BiPredicate<LocalDateTime, Entry<String, Design>> localDateTimeEntryBiPredicate = (hourAgo1, entry1) -> entry1.getValue().getLocalDateTime().minusHours(1L).isBefore(hourAgo1);
     /**
      * The Local date time entry bi predicate.
      */
-    final BiPredicate<LocalDateTime, Entry<String, Design>> localDateTimeEntryBiPredicate = (hourAgo1, entry1) -> entry1.getValue().getLocalDateTime().minusHours(1L).isBefore(hourAgo1);
-    private final ZoneId zoneId = TimeZone.getTimeZone("UTC").toZoneId();
+    @Value("${context.zone:UTC}")
+    private String zone;
+    private ZoneId zoneId;
     private Map<String, Design> context;
+
 
     /**
      * Instantiates a new Context design.
      */
     public ContextDesign() {
-        context = new ConcurrentHashMap<>();
+        this.context = new ConcurrentHashMap<>();
+
+    }
+
+    /**
+     * Post context constructor.
+     */
+    @PostConstruct
+    public void postContextConstructor() {
+        log.info("setting zone as : " + zone);
+        this.zoneId = TimeZone.getTimeZone(this.zone).toZoneId();
     }
 
     /**
@@ -64,6 +79,7 @@ public class ContextDesign {
      * @throws Exception the exception
      */
     public synchronized void addDesign(Design design) throws Exception {
+        design.setLocalDateTime(LocalDateTime.now(this.zoneId));
         log.info("Adding " + design.getName());
         if (context.containsKey(design.getName())) {
             throw new Exception("its already set that name");
