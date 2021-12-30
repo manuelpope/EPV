@@ -44,6 +44,12 @@ public class ServiceDesignBuild {
 
     }
 
+    private static void VALIDATION_READY_TO_CALCULATE(Design design) throws Exception {
+        Optional.ofNullable(design).filter(s -> Objects.nonNull(s.getCondition())).orElseThrow(() -> new Exception("Not condition has been set"));
+        Optional.of(design).filter(s -> Objects.nonNull(s.getPanel())).orElseThrow(() -> new Exception("Not panels have been set"));
+        Optional.of(design).filter(s -> !s.getLoadList().isEmpty()).orElseThrow(() -> new Exception("Not loads have been set"));
+    }
+
     /**
      * Gets entry set.
      *
@@ -108,13 +114,6 @@ public class ServiceDesignBuild {
         design.setLoadList(loadList);
         contextDesign.update(design);
         return design;
-    }
-
-
-    private static void VALIDATION_READY_TO_CALCULATE(Design design) throws Exception {
-        Optional.ofNullable(design).filter(s -> Objects.nonNull(s.getCondition())).orElseThrow(() -> new Exception("Not condition has been set"));
-        Optional.of(design).filter(s -> Objects.nonNull(s.getPanel())).orElseThrow(() -> new Exception("Not panels have been set"));
-        Optional.of(design).filter(s -> !s.getLoadList().isEmpty()).orElseThrow(() -> new Exception("Not loads have been set"));
     }
 
     /**
