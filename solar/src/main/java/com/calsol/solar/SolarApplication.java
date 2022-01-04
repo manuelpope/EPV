@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * The type Solar application.
  */
-//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync
