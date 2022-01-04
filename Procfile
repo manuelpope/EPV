@@ -1,1 +1,1 @@
-web: java -jar target/solar-0.0.1-SNAPSHOT.war
+web: java -Dserver.port=$PORT -jar target/solar-0.0.1-SNAPSHOT.war
